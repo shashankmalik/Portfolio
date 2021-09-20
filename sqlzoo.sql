@@ -1,3 +1,6 @@
+----SELECT names
+
+
 --11. Find the country where the name is the capital city.
 SELECT name
   FROM world
