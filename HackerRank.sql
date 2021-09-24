@@ -53,4 +53,17 @@ SELECT ROUND(SQRT((POWER((MAX(LAT_N)-MIN(LAT_N)),2)+POWER((MAX(LONG_W)-MIN(LONG_
 SELECT IF(A+B>C AND B+C>A AND A+C>B, IF(A=B AND B=C,'Equilateral',IF(A=B OR B=C OR A=C, 'Isosceles', 'Scalene')),'Not A Triangle') FROM TRIANGLES
 
 
+----Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and displayed underneath its corresponding Occupation. The output column headers should be Doctor, Professor, Singer, and Actor, respectively.
+SELECT [Doctor], [Professor], [Singer], [Actor]
+FROM
+(
+  SELECT ROW_NUMBER() OVER (PARTITION BY Occupation ORDER BY Name) RN, ISNULL(NULL,Name) as Name, Occupation FROM Occupations
+) AS T
+
+PIVOT
+(
+    MAX(Name) FOR Occupation IN ( [Doctor], [Professor], [Singer], [Actor] )
+) AS T_PIVOT
+ORDER BY RN;
+
 
