@@ -21,3 +21,15 @@ INSERT INTO OCCUPATIONS   ([Name], [Occupation]) VALUES    ('Eve', 'Actor')
 INSERT INTO OCCUPATIONS   ([Name], [Occupation]) VALUES    ('Aamina', 'Doctor');
 
 
+---Pivot
+SELECT Doctor, Professor, Singer, Actor
+FROM
+(
+  SELECT ROW_NUMBER() OVER (PARTITION BY Occupation ORDER BY Name) RN, ISNULL(NULL,Name) as Name, Occupation FROM Occupations
+) AS T
+
+PIVOT
+(
+    MAX(Name) FOR Occupation IN ( [Doctor], [Professor], [Singer], [Actor] )
+) AS T_PIVOT
+ORDER BY RN;
