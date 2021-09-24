@@ -49,4 +49,14 @@ VALUES ('David', 'UK', '340');
 
 
 
-----
+----Group By SalesAgent, SalesCountry
+
+SELECT salesagent, salescountry, sum(salesamount)
+FROM  tblProductSales
+group by salesagent, salescountry
+
+
+---- Pivot
+SELECT salesagent, India, US, UK FROM  tblProductSales
+Pivot (sum(SalesAmount) for SalesCountry in ([India], [US], [UK]))
+as PivotTable
